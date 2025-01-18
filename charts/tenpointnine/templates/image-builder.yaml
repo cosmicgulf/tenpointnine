@@ -5,7 +5,11 @@ metadata:
   annotations:
     "helm.sh/hook": pre-install
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+    # Increase hook timeout to 15 minutes (adjust as needed)
+    "helm.sh/hook-timeout": "900s"
 spec:
+  # Make sure we give the job enough time to finish building the image
+  activeDeadlineSeconds: 900
   backoffLimit: 0
   template:
     spec:
@@ -17,12 +21,26 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - |
-              apk add --no-cache git &&
-              git clone {{ .Values.repo.url }} &&
-              cd {{ .Values.repo.name }} &&
-              docker build --progress=plain -t {{ .Values.image.repository }}:{{ .Values.image.tag }} . |
-              tee /dev/termination-log &&
-              cd .. && rm -rf {{ .Values.repo.name }}
+              set -x
+
+              echo "Starting build process..."
+              echo "Installing git..."
+              apk add --no-cache git
+
+              echo "Cloning repository..."
+              git clone {{ .Values.repo.url }}
+
+              cd {{ .Values.repo.name }}
+
+              echo "Building Docker image {{ .Values.image.repository }}:{{ .Values.image.tag }}..."
+              # Pipe docker build output to /dev/termination-log
+              docker build --progress=plain -t {{ .Values.image.repository }}:{{ .Values.image.tag }} . 2>&1 | tee /dev/termination-log
+
+              echo "Docker build completed successfully. Cleaning up..."
+              cd ..
+              rm -rf {{ .Values.repo.name }}
+
+              echo "Build process completed."
           volumeMounts:
             - name: docker-sock
               mountPath: /var/run/docker.sock  # Mount the Docker socket
