@@ -1,15 +1,21 @@
 replicaCount: 1
 
+# Docker image settings
 image:
-  repository: tenpointnine
-  pullPolicy: IfNotPresent
-  tag: "0.0.1"
+  repository: tenpointnine  # Local image name
+  tag: "local"              # Local tag
+  pullPolicy: IfNotPresent  # Use local image if present
 
+# Git repository to clone
+repo:
+  url: https://github.com/cosmicgulf/tenpointnine.git
+  name: tenpointnine
 service:
   type: NodePort
   port: 80          # External service port
-  targetPort: 5001  # Application's internal port
-  nodePort: 30080   # Specific node port (optional, Kubernetes will assign one if omitted)
+  targetPort: 5000  # Application's internal port
+  nodePort: 30080   # Optional: fixed NodePort for access
 
 ingress:
   enabled: false
+

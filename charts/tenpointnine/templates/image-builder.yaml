@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: build-tenpointnine-image
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      containers:
+        - name: docker-builder
+          image: docker:20.10  # Docker CLI image
+          securityContext:
+            privileged: true  # Allows Docker socket access
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              apk add --no-cache git &&
+              git clone {{ .Values.repo.url }} &&
+              cd {{ .Values.repo.name }} &&
+              docker build --progress=plain -t {{ .Values.image.repository }}:{{ .Values.image.tag }} . |
+              tee /dev/termination-log &&
+              cd .. && rm -rf {{ .Values.repo.name }}
+          volumeMounts:
+            - name: docker-sock
+              mountPath: /var/run/docker.sock  # Mount the Docker socket
+      restartPolicy: Never
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock  # Host Docker daemon
+            type: Socket

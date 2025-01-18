@@ -1,7 +1,31 @@
+# Helm Chart for TenPointNine GUI Application
+# This chart deploys a Flask-based GUI application built with Litegraph and Python for testing and monitoring Tango-based control systems.
+# It can be added as a dependency in other Helm charts for modular deployment.
+# To access the deployed service, ensure you have network access to the 'tenpointnine' Kubernetes service.
+
 apiVersion: v2
 name: tenpointnine
-description: A Helm chart for Kubernetes
+description: A Helm chart for deploying a Flask-based GUI application designed for testing and monitoring Tango-based control systems within Kubernetes environments.
 type: application
 version: 0.1.0
-appVersion: "1.16.0"
+appVersion: "0.0.1"
+keywords:
+  - tango-controls
+  - gui
+  - monitoring
+  - testing
+  - kubernetes
+  - flask
+  - litegraph
+home: https://challengepi.com/tenpointnine
+sources:
+  - https://github.com/cosmicgulf/tenpointnine/charts
+maintainers:
+  - name: Jatin Sharma
+    email: jatins.ska@gmail.com
+    url: https://github.com/cosmicgulf
+annotations:
+  category: Monitoring & Testing
+  system: Tango Controls
+  platform: Kubernetes
 
