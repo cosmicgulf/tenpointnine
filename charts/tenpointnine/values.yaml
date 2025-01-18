@@ -1,0 +1,15 @@
+replicaCount: 1
+
+image:
+  repository: tenpointnine
+  pullPolicy: IfNotPresent
+  tag: "0.0.1"
+
+service:
+  type: NodePort
+  port: 80          # External service port
+  targetPort: 5001  # Application's internal port
+  nodePort: 30080   # Specific node port (optional, Kubernetes will assign one if omitted)
+
+ingress:
+  enabled: false

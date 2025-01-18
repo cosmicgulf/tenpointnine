@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" class="litegraph">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TenPointNine</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='fevicon.ico') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.1/math.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/themes.css') }}" />
+    <script type="text/javascript" src="{{ url_for('static', filename='js/litegraph.js') }}"></script>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: Tahoma, sans-serif;
+        }
+
+        /* Removed #sidebar related styles */
+
+        #canvas-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--lg-bg-color);
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #canvas-container canvas {
+            border: 1px solid var(--lg-panel-border);
+            background: var(--lg-panel-bg);
+            box-shadow: var(--lg-shadow);
+        }
+
+        #top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .theme-select {
+            background-color: var(--lg-bg-color);
+            color: var(--lg-text-color);
+            border: 1px solid var(--lg-panel-border);
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+        }
+
+        #saveGraph, #loadGraph {
+            background-color: var(--lg-bg-color);
+            color: var(--lg-text-dim);
+            border: 1px solid var(--lg-panel-border);
+            border-radius: 4px;
+            padding: 6px 12px;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        #saveGraph:hover, #loadGraph:hover {
+            background-color: var(--lg-highlight-bg);
+            color: var(--lg-highlight-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Removed the entire sidebar panel -->
+
+    <div id="canvas-container">
+        <div id="top-bar">
+            <div>
+                <label for="theme-selector">Theme:</label>
+                <select id="theme-selector" class="theme-select">
+                    <option value="litegraph-theme-dark">Dark</option>
+                    <option value="litegraph-theme-light">Light</option>
+                    <option value="litegraph-theme-pastel">Pastel</option>
+                    <option value="litegraph-theme-neon">Neon</option>
+                    <option value="litegraph-theme-highcontrast">High Contrast</option>
+                </select>
+            </div>
+            <div>
+                <button id="saveGraph">Save Graph</button>
+                <button id="loadGraph">Load Graph</button>
+            </div>
+        </div>
+        <canvas id="mycanvas" width="1000" height="600"></canvas>
+    </div>
+
+    <!-- JavaScript File Inclusions -->
+    <script src="{{ url_for('static', filename='js/canvas1.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/canvas2.js') }}"></script> 
+    <script src="{{ url_for('static', filename='js/canvas3.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/canvas4.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/canvas5.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/canvas7.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/canvas6.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/canvas8.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/trigger/trigger.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/kubernets/kubernetes.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/testing/testing1.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/testing/testing2.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/testing/testing3.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/testing/testing4.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tango/tango.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/graph/graph.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tango/tango_logs.js') }}"></script>
+
+    <script>
+        // Theme handling
+        const themeSelector = document.getElementById('theme-selector');
+        const savedTheme = localStorage.getItem('lg-theme') || 'litegraph-theme-dark';
+        document.documentElement.classList.add(savedTheme);
+        themeSelector.value = savedTheme;
+
+        themeSelector.addEventListener('change', function () {
+            document.documentElement.classList.remove(
+                'litegraph-theme-dark',
+                'litegraph-theme-light',
+                'litegraph-theme-pastel',
+                'litegraph-theme-neon',
+                'litegraph-theme-highcontrast'
+            );
+            const newTheme = this.value;
+            document.documentElement.classList.add(newTheme);
+            localStorage.setItem('lg-theme', newTheme);
+        });
+    </script>
+</body>
+</html>

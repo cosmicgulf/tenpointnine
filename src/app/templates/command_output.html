@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Command Output - {{ pod_name }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .output { white-space: pre-wrap; background-color: #f9f9f9; padding: 10px; }
+        .success { color: green; }
+        .error { color: red; }
+        a { text-decoration: none; color: #007BFF; }
+    </style>
+</head>
+<body>
+    <h1>Command Output for Pod: {{ pod_name }}</h1>
+    <p><strong>Executed Command:</strong> {{ command }}</p>
+    {% if success %}
+        <p class="success">Command executed successfully.</p>
+    {% else %}
+        <p class="error">Command execution failed.</p>
+    {% endif %}
+    <div class="output">
+        {{ output }}
+    </div>
+    <br>
+    <a href="{{ url_for('execute_command', namespace=namespace, pod_name=pod_name) }}">Execute another command</a>
+</body>
+</html>

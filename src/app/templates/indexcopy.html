@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" class="litegraph">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TenPointNine</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='fevicon.ico') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.1/math.min.js"></script>
+    <!-- LiteGraph and Line CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/themes.css') }}" />
+    <script type="text/javascript" src="{{ url_for('static', filename='js/litegraph.js') }}"></script>
+    
+    <style>
+        /* Additional Layout Styles (Not Overriding theme.css) */
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: Tahoma, sans-serif;
+        }
+
+        #sidebar {
+            width: 320px;
+            background: var(--lg-panel-bg);
+            color: var(--lg-text-color);
+            border-right: 1px solid var(--lg-panel-border);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #sidebar h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.4em;
+        }
+
+        #sidebar p {
+            line-height: 1.4em;
+            margin-bottom: 10px;
+        }
+
+        #sidebar button {
+            background-color: var(--lg-bg-color);
+            color: var(--lg-text-dim);
+            border: 1px solid var(--lg-panel-border);
+            border-radius: 4px;
+            padding: 6px 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        #sidebar button:hover {
+            background-color: var(--lg-highlight-bg);
+            color: var(--lg-highlight-color);
+        }
+
+        .nav-buttons a button {
+            margin-top: 4px;
+        }
+
+        #canvas-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--lg-bg-color);
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #canvas-container canvas {
+            border: 1px solid var(--lg-panel-border);
+            background: var(--lg-panel-bg);
+            box-shadow: var(--lg-shadow);
+        }
+
+        #top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .theme-select {
+            background-color: var(--lg-bg-color);
+            color: var(--lg-text-color);
+            border: 1px solid var(--lg-panel-border);
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+        }
+
+        #saveGraph, #loadGraph {
+            background-color: var(--lg-bg-color);
+            color: var(--lg-text-dim);
+            border: 1px solid var(--lg-panel-border);
+            border-radius: 4px;
+            padding: 6px 12px;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        #saveGraph:hover, #loadGraph:hover {
+            background-color: var(--lg-highlight-bg);
+            color: var(--lg-highlight-color);
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <h2>Question {{ problem_number }}: {{ problem['tags'] }} Problem</h2>
+        <p>{{ problem['statement'] }}</p>
+
+        <!-- Hint Section -->
+        <button id="hint-button">Show Hint</button>
+        <p id="hint" class="hidden">{{ problem['hint'] }}</p>
+
+        <!-- Tag Section -->
+        <button id="tags-button">Show/Hide Tags</button>
+        <p id="tags" class="hidden">Tags: {{ problem['tags'] }}</p>
+
+        <!-- Navigation Buttons -->
+        <div class="nav-buttons">
+            {% if problem_number > 1 %}
+            <a href="{{ url_for('index', problem_number=problem_number-1) }}">
+                <button>Previous Problem</button>
+            </a>
+            {% endif %}
+
+            {% if problem_number < total_problems %}
+            <a href="{{ url_for('index', problem_number=problem_number+1) }}">
+                <button>Next Problem</button>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="canvas-container">
+        <div id="top-bar">
+            <!-- Theme Chooser -->
+            <div>
+                <label for="theme-selector">Theme:</label>
+                <select id="theme-selector" class="theme-select">
+                    <option value="litegraph-theme-dark">Dark</option>
+                    <option value="litegraph-theme-light">Light</option>
+                    <option value="litegraph-theme-pastel">Pastel</option>
+                    <option value="litegraph-theme-neon">Neon</option>
+                    <option value="litegraph-theme-highcontrast">High Contrast</option>
+                </select>
+            </div>
+            <div>
+                <button id="saveGraph">Save Graph</button>
+                <button id="loadGraph">Load Graph</button>
+            </div>
+        </div>
+
+        <canvas
+          id="mycanvas"
+          width="1000"
+          height="600"
+        ></canvas>
+    </div>
+
+    <!-- JS Dependencies -->
+    <script src="{{ url_for('static', filename='js/canvas1.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/canvas2.js') }}"></script> 
+    <script src="{{ url_for('static', filename='js/canvas3.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/canvas4.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/canvas5.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/canvas7.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/canvas6.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/canvas8.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/trigger/trigger.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/kubernets/kubernetes.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/testing/testing1.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/testing/testing2.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/testing/testing3.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tango/tango.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/graph/graph.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tango/tango_logs.js') }}"></script>
+
+
+    <!-- Load problem-specific script if available -->
+    {% if problem['script'] %}
+    <script>
+    var script = document.createElement('script');
+    script.src = "{{ url_for('static', filename=problem['script']) }}";
+    document.body.appendChild(script);
+    </script>
+    {% endif %}
+
+    <script>
+        // Apply previously saved theme if any
+        const savedTheme = localStorage.getItem('lg-theme') || 'litegraph-theme-dark';
+        document.documentElement.classList.add(savedTheme);
+        
+        // Set the selector to the saved theme
+        document.getElementById('theme-selector').value = savedTheme;
+
+        // Toggle hint display
+        document.getElementById('hint-button').addEventListener('click', function() {
+            var hint = document.getElementById('hint');
+            hint.classList.toggle('hidden');
+            this.textContent = hint.classList.contains('hidden') ? 'Show Hint' : 'Hide Hint';
+        });
+
+        // Toggle tags display
+        document.getElementById('tags-button').addEventListener('click', function() {
+            var tags = document.getElementById('tags');
+            tags.classList.toggle('hidden');
+        });
+
+        // Theme changing functionality
+        const themeSelector = document.getElementById('theme-selector');
+        themeSelector.addEventListener('change', function() {
+            // Remove all theme classes from <html> tag
+            document.documentElement.classList.remove(
+                'litegraph-theme-dark',
+                'litegraph-theme-light',
+                'litegraph-theme-pastel',
+                'litegraph-theme-neon',
+                'litegraph-theme-highcontrast'
+            );
+            // Add the selected theme class
+            const newTheme = this.value;
+            document.documentElement.classList.add(newTheme);
+            // Save to localStorage
+            localStorage.setItem('lg-theme', newTheme);
+        });
+    </script>
+</body>
+</html>

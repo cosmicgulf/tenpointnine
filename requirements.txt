@@ -1,0 +1,9 @@
+secure-smtplib==0.1.1
+Flask>=2.2.2
+Flask-RESTful==0.3.8
+kubernetes==31.0.0
+assertpy==1.1
+urllib3==1.26.5
+requests==2.32.3
+regex==2024.7.24
+gunicorn==23.0.0
