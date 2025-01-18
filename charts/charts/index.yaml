@@ -1,0 +1,34 @@
+apiVersion: v1
+entries:
+  tenpointnine:
+  - annotations:
+      category: Monitoring & Testing
+      platform: Kubernetes
+      system: Tango Controls
+    apiVersion: v2
+    appVersion: 0.0.1
+    created: "2025-01-18T13:30:12.331000125+05:30"
+    description: A Helm chart for deploying a Flask-based GUI application designed
+      for testing and monitoring Tango-based control systems within Kubernetes environments.
+    digest: c914e75f2aa37c2fafaf791c1ff90f8b43e2816f7da8d45080c709233c5b94d0
+    home: https://challengepi.com/tenpointnine
+    keywords:
+    - tango-controls
+    - gui
+    - monitoring
+    - testing
+    - kubernetes
+    - flask
+    - litegraph
+    maintainers:
+    - email: jatins.ska@gmail.com
+      name: Jatin Sharma
+      url: https://github.com/cosmicgulf
+    name: tenpointnine
+    sources:
+    - https://github.com/cosmicgulf/tenpointnine/charts
+    type: application
+    urls:
+    - tenpointnine-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-01-18T13:30:12.330543602+05:30"
