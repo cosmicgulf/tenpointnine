@@ -7,10 +7,10 @@ entries:
       system: Tango Controls
     apiVersion: v2
     appVersion: 0.0.1
-    created: "2025-01-18T13:30:12.331000125+05:30"
+    created: "2025-01-19T07:00:42.908814545+05:30"
     description: A Helm chart for deploying a Flask-based GUI application designed
       for testing and monitoring Tango-based control systems within Kubernetes environments.
-    digest: c914e75f2aa37c2fafaf791c1ff90f8b43e2816f7da8d45080c709233c5b94d0
+    digest: 10550e52dc3349261d605585708fc18e25b6f7a34f8451e46271549fb0d5a484
     home: https://challengepi.com/tenpointnine
     keywords:
     - tango-controls
@@ -31,4 +31,4 @@ entries:
     urls:
     - tenpointnine-0.1.0.tgz
     version: 0.1.0
-generated: "2025-01-18T13:30:12.330543602+05:30"
+generated: "2025-01-19T07:00:42.908339201+05:30"

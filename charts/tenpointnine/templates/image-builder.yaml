@@ -5,11 +5,11 @@ metadata:
   annotations:
     "helm.sh/hook": pre-install
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
-    # Increase hook timeout to 15 minutes (adjust as needed)
-    "helm.sh/hook-timeout": "900s"
+    # Increase hook timeout to 20 minutes (adjust as needed)
+    "helm.sh/hook-timeout": "1800s"
 spec:
   # Make sure we give the job enough time to finish building the image
-  activeDeadlineSeconds: 900
+  activeDeadlineSeconds: 1800
   backoffLimit: 0
   template:
     spec:
