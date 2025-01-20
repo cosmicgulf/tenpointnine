@@ -344,5 +344,22 @@ def get_module_file():
 #######################################################################
 #######################################################################
 
+@app.route('/fqdn', methods=['GET'])
+def get_trl_prefix():
+    # Read environment variables
+    tango_host_name = os.getenv('TANGO_HOST_NAME', 'tango-databaseds')
+    kube_namespace = os.getenv('KUBE_NAMESPACE', 'tenpointnine')
+    cluster_domain = os.getenv('CLUSTER_DOMAIN', 'cluster.local')
+    port = os.getenv('PORT', '1000')
+
+    # Construct the trl
+    if tango_host_name and kube_namespace and cluster_domain and port:
+        trl = f"tango://{tango_host_name}.{kube_namespace}.svc.{cluster_domain}:{port}"
+    else:
+        trl = ""
+
+    # Return the full prefix
+    return jsonify({"fqdn": f"{trl}/"})
+
 if __name__ == '__main__':
     app.run(debug=True)
