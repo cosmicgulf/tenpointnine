@@ -350,7 +350,7 @@ def get_trl_prefix():
     tango_host_name = os.getenv('TANGO_HOST_NAME', 'tango-databaseds')
     kube_namespace = os.getenv('KUBE_NAMESPACE', 'tenpointnine')
     cluster_domain = os.getenv('CLUSTER_DOMAIN', 'cluster.local')
-    port = os.getenv('PORT', '1000')
+    port = os.getenv('PORT', '10000')
 
     # Construct the trl
     if tango_host_name and kube_namespace and cluster_domain and port:
