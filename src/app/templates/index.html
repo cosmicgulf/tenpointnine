@@ -18,7 +18,69 @@
             font-family: Tahoma, sans-serif;
         }
 
-        /* Removed #sidebar related styles */
+        #sidebar {
+            width: 320px;
+            background: var(--lg-panel-bg);
+            color: var(--lg-text-color);
+            border-right: 1px solid var(--lg-panel-border);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #single-step-display {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        #current-step-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #current-step-content {
+            margin-bottom: 20px;
+            line-height: 1.5;
+            padding: 15px;
+            border-radius: 8px;
+            background: var(--lg-panel-bg);
+            box-shadow: var(--lg-shadow);
+            border: 1px solid var(--lg-panel-border);
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        button {
+            padding: 8px 12px;
+            border: 1px solid var(--lg-panel-border);
+            border-radius: 4px;
+            background-color: var(--lg-bg-color);
+            color: var(--lg-text-color);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--lg-highlight-bg);
+            color: var(--lg-highlight-color);
+        }
+
+        button:disabled {
+            background-color: var(--lg-panel-border);
+            color: var(--lg-text-dim);
+            cursor: not-allowed;
+        }
 
         #canvas-container {
             flex-grow: 1;
@@ -70,7 +132,18 @@
     </style>
 </head>
 <body>
-    <!-- Removed the entire sidebar panel -->
+    <div id="sidebar">
+        <h2>Demo</h2>
+        <h3>By Jatin Sharma</h3>
+        <div id="single-step-display">
+            <div id="current-step-title"></div>
+            <div id="current-step-content"></div>
+            <div style="display: flex; justify-content: space-between;">
+                <button id="prevStep">Previous</button>
+                <button id="nextStep">Next</button>
+            </div>
+        </div>
+    </div>
 
     <div id="canvas-container">
         <div id="top-bar">
@@ -106,13 +179,105 @@
     <script src="{{ url_for('static', filename='js/testing/testing1.js') }}"></script>
     <script src="{{ url_for('static', filename='js/testing/testing2.js') }}"></script>
     <script src="{{ url_for('static', filename='js/testing/testing3.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/testing/testing4.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/testing/testing5.js') }}"></script>
     <script src="{{ url_for('static', filename='js/tango/tango.js') }}"></script>
     <script src="{{ url_for('static', filename='js/graph/graph.js') }}"></script>
     <script src="{{ url_for('static', filename='js/tango/tango_logs.js') }}"></script>
 
+
     <script>
-        // Theme handling
+        const steps = [
+    {
+        title: "Introduction",
+        content: [
+            "TenPointNine is a GUI tool I developed for Testing and Data Visualization.",
+            "It supports both Manual and Semi-Automated testing processes.",
+            "Primarily designed for TANGO systems, but it also works seamlessly with any Python application."
+        ]
+    },
+    {
+        title: "Architecture",
+        content: [
+            "The design is inspired by the pytest Python module for manual testing.",
+            "TenPointNine incorporates its own logical framework to handle testing workflows."
+        ]
+    },
+    {
+        title: "Introduction to Testing Widgets",
+        content: [
+            "Includes custom-made widgets for a tailored testing experience.",
+            "Supports the use of a 'Comptest' file for structured test cases.",
+            "Integrates a custom Python executor for enhanced flexibility."
+        ]
+    },
+    {
+        title: "Support for Kubernetes",
+        content: [
+            "Provides robust support for Kubernetes to manage namespaces efficiently.",
+            "Monitoring logs , Deletion of pods and basic k8s activities can be done easily in this."
+        ]
+    },
+    {
+        title: "A Simple Test Case",
+        content: [
+            "Implemented a basic BDD (Behavior-Driven Development) test case for demonstration.",
+            "Showcases how test scenarios can be defined and executed within TenPointNine."
+        ]
+    },
+    {
+        title: "Conclusion",
+        content: [
+            "The tool is open for feedback, questions, and criticism.",
+            "Looking forward to discussions on how it can be improved further."
+        ]
+    }
+];
+
+
+        let currentStepIndex = 0;
+        const currentStepTitle = document.getElementById('current-step-title');
+        const currentStepContent = document.getElementById('current-step-content');
+        const prevStepBtn = document.getElementById('prevStep');
+        const nextStepBtn = document.getElementById('nextStep');
+
+        function displayStep(index) {
+            currentStepTitle.textContent = steps[index].title;
+
+            // Clear existing content and append new content as a list
+            currentStepContent.innerHTML = "";
+            const content = steps[index].content;
+            if (Array.isArray(content)) {
+                const ul = document.createElement("ul");
+                content.forEach(item => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    ul.appendChild(li);
+                });
+                currentStepContent.appendChild(ul);
+            } else {
+                currentStepContent.textContent = content;
+            }
+
+            prevStepBtn.disabled = (index === 0);
+            nextStepBtn.disabled = (index === steps.length - 1);
+        }
+
+        prevStepBtn.addEventListener('click', function() {
+            if (currentStepIndex > 0) {
+                currentStepIndex--;
+                displayStep(currentStepIndex);
+            }
+        });
+
+        nextStepBtn.addEventListener('click', function() {
+            if (currentStepIndex < steps.length - 1) {
+                currentStepIndex++;
+                displayStep(currentStepIndex);
+            }
+        });
+
+        displayStep(currentStepIndex);
+
         const themeSelector = document.getElementById('theme-selector');
         const savedTheme = localStorage.getItem('lg-theme') || 'litegraph-theme-dark';
         document.documentElement.classList.add(savedTheme);
